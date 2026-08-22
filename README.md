@@ -1,70 +1,157 @@
-# API REST – Café Aurora
-Atividade Prática de Desenvolvimento Web Back-End (UNINTER)
-Aluna: Eloise Bellorio – RU: 4951705
+<div align="center">
 
-## O que é este projeto
-API REST em Java + Spring Boot + Spring Data JPA, com as entidades **Cliente**, **Produto**
-e **Pedido**, seguindo o padrão MVC do Spring. Usa banco **H2** (relacional, em arquivo
-local) — não precisa instalar MySQL para funcionar.
+# Cafe Aurora API
+
+### REST API for managing customers, products, and orders for a small coffee shop
+
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+![H2](https://img.shields.io/badge/H2%20Database-1E5B94?style=for-the-badge&logo=h2&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+
+</div>
 
 ---
 
-## PASSO 1 — Importar no Eclipse
+## Overview
 
-1. Abra o Eclipse.
-2. Vá em **File > Import... > Maven > Existing Maven Projects**.
-3. Em "Root Directory", clique em **Browse** e selecione a pasta `cafe-aurora-api`
-   (a pasta que contém o arquivo `pom.xml`).
-4. Clique em **Finish**. O Eclipse vai baixar as dependências automaticamente
-   (pode levar 1-2 minutos na primeira vez — precisa de internet).
+A REST API that models the backend of a small coffee shop, Cafe Aurora.
+It manages customers, products, and orders, and exposes CRUD endpoints
+for each of them, built on top of Spring Boot and Spring Data JPA.
 
-> Se preferir, pode usar o **Spring Tool Suite (STS)** ou o **IntelliJ** também —
-> o processo de importar projeto Maven é parecido.
+## Features
 
-## PASSO 2 — Rodar a aplicação
+- Full CRUD for **Customers**
+- Full CRUD for **Products**
+- Full CRUD for **Orders**
+- Optional `PUT` update support for all three resources
+- Relational persistence via Spring Data JPA
+- JSON responses with proper HTTP status codes (`201`, `204`, `404`)
 
-1. No Eclipse, abra o arquivo:
-   `src/main/java/com/cafearora/api/CafeAuroraApiApplication.java`
-2. Clique com o botão direito nele → **Run As > Java Application**.
-3. Aguarde até aparecer no console algo como:
-   `Tomcat started on port(s): 8080`
-4. Pronto! A API está rodando em `http://localhost:8080`
+## Tech stack
 
-## PASSO 3 — Testar no Postman
+| Technology | Purpose |
+|---|---|
+| **Java 17** | Core language |
+| **Spring Boot 3.2.5** | Application framework |
+| **Spring Web (MVC)** | REST endpoint layer |
+| **Spring Data JPA** | Object-relational mapping |
+| **H2 Database** | Default file-based relational database |
+| **MySQL** | Optional production-style database |
+| **Maven** | Build and dependency management |
+| **Postman** | Manual API testing |
 
-Abra o Postman e envie as seguintes requisições, na ordem (isso cobre todos os
-testes obrigatórios do trabalho). Tire um **print de cada uma** e cole no documento
-Word, na seção 4:
+## Project structure
 
-### 1. Criar Cliente
-- Método: `POST`
-- URL: `http://localhost:8080/clientes`
-- Body → raw → JSON:
-```json
+```
+cafe-aurora-api/
+├── pom.xml
+└── src/main/
+    ├── java/com/cafearora/api/
+    │   ├── CafeAuroraApiApplication.java
+    │   ├── model/
+    │   │   ├── Cliente.java
+    │   │   ├── Produto.java
+    │   │   └── Pedido.java
+    │   ├── repository/
+    │   │   ├── ClienteRepository.java
+    │   │   ├── ProdutoRepository.java
+    │   │   └── PedidoRepository.java
+    │   └── controller/
+    │       ├── ClienteController.java
+    │       ├── ProdutoController.java
+    │       └── PedidoController.java
+    └── resources/
+        └── application.properties
+```
+
+## Getting started
+
+### Requirements
+- JDK 17+
+- Maven (or an IDE that bundles it, such as Eclipse or IntelliJ)
+
+### Run it
+
+```bash
+git clone https://github.com/YOUR_USERNAME/cafe-aurora-api.git
+cd cafe-aurora-api
+mvn spring-boot:run
+```
+
+Or, from an IDE: import as an existing Maven project and run
+`CafeAuroraApiApplication.java` as a Java application.
+
+The API starts at `http://localhost:8080`.
+
+## API reference
+
+### Customers (`/clientes`)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/clientes` | Create a customer |
+| `GET` | `/clientes` | List all customers |
+| `GET` | `/clientes/{id}` | Get a customer by ID |
+| `PUT` | `/clientes/{id}` | Update a customer *(optional)* |
+| `DELETE` | `/clientes/{id}` | Delete a customer |
+
+### Products (`/produtos`)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/produtos` | Create a product |
+| `GET` | `/produtos` | List all products |
+| `GET` | `/produtos/{id}` | Get a product by ID |
+| `PUT` | `/produtos/{id}` | Update a product *(optional)* |
+| `DELETE` | `/produtos/{id}` | Delete a product |
+
+### Orders (`/pedidos`)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/pedidos` | Create an order |
+| `GET` | `/pedidos` | List all orders |
+| `GET` | `/pedidos/{id}` | Get an order by ID |
+| `PUT` | `/pedidos/{id}` | Update an order *(optional)* |
+| `DELETE` | `/pedidos/{id}` | Delete an order |
+
+## Example requests
+
+Create a customer:
+
+```http
+POST http://localhost:8080/clientes
+Content-Type: application/json
+
 {
-  "nome": "EloiseBellorio4951705",
+  "nome": "Ana Torres",
   "clienteDesde": "2026-08-22"
 }
 ```
 
-### 2. Criar Produto
-- Método: `POST`
-- URL: `http://localhost:8080/produtos`
-- Body → raw → JSON:
-```json
+Create a product:
+
+```http
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
 {
-  "nome": "Café Bourbon Amarelo 250g",
+  "nome": "Cafe Bourbon Amarelo 250g",
   "preco": 32.90,
   "estoque": true
 }
 ```
 
-### 3. Criar Pedido
-- Método: `POST`
-- URL: `http://localhost:8080/pedidos`
-- Body → raw → JSON (troque os IDs pelos que vieram nas respostas anteriores,
-  provavelmente `1` e `1` se for o primeiro cliente/produto cadastrado):
-```json
+Create an order:
+
+```http
+POST http://localhost:8080/pedidos
+Content-Type: application/json
+
 {
   "clienteId": 1,
   "produtoId": 1,
@@ -72,53 +159,23 @@ Word, na seção 4:
 }
 ```
 
-### 4. Listagem geral
-- `GET http://localhost:8080/clientes`
-- `GET http://localhost:8080/produtos`
-- `GET http://localhost:8080/pedidos`
+## Database
 
-### 5. Consulta por ID
-- `GET http://localhost:8080/clientes/1`
+By default, the project runs on **H2**, a file-based relational database —
+no separate installation required. With the app running, the web console
+is available at:
 
-### 6. Apagar (DELETE)
-- `DELETE http://localhost:8080/clientes/1` (ou produto/pedido, à sua escolha)
-- Resposta esperada: `204 No Content`
-
----
-
-## PASSO 4 — Subir para o GitHub
-
-1. Crie um repositório novo no GitHub (pode ser público), ex: `cafe-aurora-api`.
-2. No Eclipse: botão direito no projeto → **Team > Share Project > Git** → crie um
-   repositório local.
-3. Depois: botão direito → **Team > Commit...** → selecione todos os arquivos → escreva
-   uma mensagem (ex: "Projeto Café Aurora - Atividade Prática") → **Commit**.
-4. Depois: **Team > Remote > Push...** → cole a URL do repositório criado no GitHub → **Push**.
-
-Ou, se preferir pelo terminal, dentro da pasta `cafe-aurora-api`:
-```bash
-git init
-git add .
-git commit -m "Projeto Café Aurora - Atividade Pratica"
-git branch -M main
-git remote add origin https://github.com/SEU_USUARIO/cafe-aurora-api.git
-git push -u origin main
+```
+http://localhost:8080/h2-console
 ```
 
-Copie o link do repositório e cole no documento Word, na seção 5.
+- **JDBC URL:** `jdbc:h2:file:./data/cafeauroradb`
+- **Username:** `sa`
+- **Password:** *(blank)*
 
----
+To switch to MySQL, update `application.properties` — the alternate
+configuration is already included there, commented out.
 
-## Estrutura do projeto
-```
-cafe-aurora-api/
-├── pom.xml
-└── src/main/
-    ├── java/com/cafearora/api/
-    │   ├── CafeAuroraApiApplication.java
-    │   ├── model/       (Cliente, Produto, Pedido)
-    │   ├── repository/  (ClienteRepository, ProdutoRepository, PedidoRepository)
-    │   └── controller/  (ClienteController, ProdutoController, PedidoController)
-    └── resources/
-        └── application.properties
-```
+## License
+
+This project is open for personal and educational use.
